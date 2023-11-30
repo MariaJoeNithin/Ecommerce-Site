@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -228,22 +228,27 @@
 
 
           let updateProduct = cartStorage[findIndex];
+          let updatedQuantity = updateProduct.quantity + Number(upd);
 
-          console.log(updateProduct.quantity)
+          console.log(updatedQuantity);
 
+          if (updatedQuantity > 0) {
           let productToUpdate = {
             ...updateProduct,
-            quantity: updateProduct.quantity + Number(upd) ,
+            quantity: updatedQuantity ,
           };
 
           console.log(productToUpdate);
           cartStorage.splice(findIndex, 1, productToUpdate);
+        }
+        else
+        {
+          cartStorage.splice(findIndex, 1);
+        }
+
           localStorage.setItem("cart", JSON.stringify(cartStorage));
 
-          if(updateProduct.quantity == 0)
-          {
-            removeCart(id)
-          }
+          
         window.location.reload()
       // displayProducts()
 
