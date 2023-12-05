@@ -31,8 +31,8 @@
       }
       .product_items
       {
-        max-width: 350px;
-        min-width: 350px;
+        max-width: 250px;
+        min-width: 250px;
         display: flex;
         flex-direction: column;
         /* background-color: rgba(255, 255, 255, 1); */
@@ -129,6 +129,20 @@
         color: #000;
         text-decoration: none;
       }
+      .image-container
+      {
+        overflow: hidden;
+        max-height: 150px;
+        min-height: 150px;
+        max-width: 200px;
+        min-width: 200px;
+        object-fit: cover;
+      }
+      .image-container img 
+      {
+        height: 125px;
+        width: auto;
+      }
     </style>
   </head>
   <body>
@@ -222,13 +236,13 @@
                         <p class="product-description">${product.description}</p>
                       </div>
                       -->
-                    <p class="d-flex justify-content-center align-item-center">
-                        <img src=${product.images[0]} alt=product-${product.id} height="150px" width="auto" />    
+                    <p class="d-flex justify-content-center align-item-center image-container">
+                        <img src=${product.images[0]} alt=product-${product.id}/>    
                     </p>
                   </a>
 
                   <p class="d-flex buttons justify-content-center align-items-center gap-5">
-                        <button class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button>   
+                        <button id="cartBtn${product.id}" class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button> 
                   </p>
                 </div>
                 `;

@@ -32,7 +32,7 @@
       #products-container
       {
         display: flex;
-        padding: 50px;
+        padding-top: 50px;
         flex-wrap: wrap;
         gap: 35px !important;
         align-items: center;
@@ -239,7 +239,7 @@
         console.log(findProduct);
         const productContainer = document.querySelector("#prdt-container");
         const productDiv = `
-                <div id="product-${findProduct.id}" class="container-fluid text-white ">
+                <div id="product-${findProduct.id}" class="container-fluid text-white m-0 ">
                   <div class="row row-cols-1 row-cols-md-2">
                       <!-- <h2>Product Number: ${findProduct.id}</h2> -->
                     <div class="col">
@@ -260,11 +260,11 @@
                       <p id="cartnotadded" class="d-flex buttons justify-content-start align-items-center gap-5">
                       <button class ="btn btn-success cart my-2" onclick='addToCart(${findProduct.id})'>Add To Cart</button>   
                     </p>
-                    <p id="cartadded" class="d-flex buttons justify-content-start align-items-center gap-2">
+                  <!--  <p id="cartadded" class="d-flex buttons justify-content-start align-items-center gap-2">
                       <button class="btn btn-primary" onclick='updateCart(${findProduct.id}, 1)'>+</button>
                       <button class="btn btn-primary" onclick='updateCart(${findProduct.id}, -1)'>-</button>
                       <button class="btn btn-danger" onclick='removeCart(${findProduct.id})'>Remove</button>
-                    </p>
+                    </p>  -->
                     </div>
                   </div>
                       <hr> 
@@ -316,11 +316,11 @@
                   <p id="cartnotadded" class="d-flex buttons justify-content-center align-items-center gap-5">
                       <button class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button>   
                     </p>
-                    <p id="cartadded" class="d-flex buttons justify-content-center align-items-center gap-2">
+                  <!--  <p id="cartadded" class="d-flex buttons justify-content-center align-items-center gap-2">
                       <button class="btn btn-primary" onclick='updateCart(${product.id}, 1)'>+</button>
                       <button class="btn btn-primary" onclick='updateCart(${product.id}, -1)'>-</button>
                       <button class="btn btn-danger" onclick='removeCart(${product.id})'>Remove</button>
-                    </p>
+                    </p>  -->
                 </div>
                 `;
         });
