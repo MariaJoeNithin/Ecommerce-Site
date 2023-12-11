@@ -27,12 +27,13 @@
       }
       .product_items
       {
-        max-width: 350px;
-        min-width: 350px;
+        max-width: 250px;
+        min-width: 250px;
         display: flex;
         flex-direction: column;
         /* background-color: rgba(255, 255, 255, 1); */
-        background: linear-gradient(rgba(255, 255, 255, 0.5),white,white,white,rgba(255, 255, 255, 0.5));
+        background: radial-gradient(white,white,rgb(217, 255, 0));
+        /* background: linear-gradient(rgb(0, 0, 0),white,white,white,rgb(0, 0, 0)); */
         backdrop-filter: blur(8px);
         color: black;
         max-height: 450px;
@@ -129,10 +130,17 @@
       {
         border-radius: 10px;
         padding: 10px;
+        min-width: 300px;
+        max-width: 300px;
         box-shadow: 0px 0px 15px white;
         margin-bottom: 20px;
         background-color: rgba(0, 0, 0, 0.75);
         backdrop-filter: blur(8px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        row-gap: 10px;
       }
     </style>
   </head>
@@ -169,8 +177,11 @@
     </div>
 
     <div id="pro-container" >
-        <div id="cart-items" class="text-white"></div>
-      <p class="d-flex justify-content-center align-item-center"><a class ="btn btn-success my-2" href="./index.html">Back to home page</a></p>
+        <div id="cart-items" class="text-white d-flex gap-3 align-item-center"></div>
+      <p class="d-flex justify-content-center align-item-center gap-3">
+        <a class ="btn btn-light my-2" id="buynow" href="#">Buy Now</a>
+        <a class ="btn btn-success my-2" href="./index.html">Back to home page</a>
+      </p>
     </div>
 
 
@@ -194,17 +205,19 @@
           cartProducts.forEach((product, index) => {
             const divEle = document.createElement("div");
             divEle.classList.add("cartelement");
-            divEle.innerHTML = `<h2>${product.title}</h2>
+            divEle.innerHTML = `<h2 class="text-center">${product.title}</h2>
             
             <a href='./product_id.html?id=${product.id}'>
                     <p><img class="img-fluid rounded" style="max-height:100px" src=${product.image} alt=product-${
               index + 1
             }/></p></a>
-                    <h3>Rs.${product.price}</h3>
+                    <h3>Rs.${product.price*product.quantity}</h3>
+                    <p>
                     <button class="btn btn-primary" onclick='updateCart(${product.id}, 1)'>+</button>
                     ${product.quantity}
                     <button class="btn btn-primary" onclick='updateCart(${product.id}, -1)'>-</button>
                     <button class="btn btn-danger" onclick='removeCart(${product.id})'>Remove</button>
+                    </p>
                     <hr />`;
             cartContainer.appendChild(divEle);
           });
@@ -352,6 +365,15 @@
           let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
           let cartNo=document.querySelector("#cartitem");
           cartNo.innerHTML=cartStorage.length;
+          let buynwbtn = document.getElementById("buynow");
+          if(cartStorage.length>0)
+          {
+            buynwbtn.style.visibility = "visible";
+          }
+          else
+          {
+            buynwbtn.style.visibility= "hidden";
+          }
         }
 
     </script>
