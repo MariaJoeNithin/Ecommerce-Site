@@ -195,12 +195,14 @@
             const divEle = document.createElement("div");
             divEle.classList.add("cartelement");
             divEle.innerHTML = `<h2>${product.title}</h2>
-                    <p><img src=${product.image} alt=product-${
+            
+            <a href='./product_id.html?id=${product.id}'>
+                    <p><img class="img-fluid rounded" style="max-height:100px" src=${product.image} alt=product-${
               index + 1
-            } height="100px" width="100px"/></p>
+            }/></p></a>
                     <h3>Rs.${product.price}</h3>
-                    <h3>Qty: ${product.quantity}</h3>
                     <button class="btn btn-primary" onclick='updateCart(${product.id}, 1)'>+</button>
+                    ${product.quantity}
                     <button class="btn btn-primary" onclick='updateCart(${product.id}, -1)'>-</button>
                     <button class="btn btn-danger" onclick='removeCart(${product.id})'>Remove</button>
                     <hr />`;
@@ -344,6 +346,13 @@
 
       });
 
+      window.onload = cartlimit()
+        function cartlimit()
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+          let cartNo=document.querySelector("#cartitem");
+          cartNo.innerHTML=cartStorage.length;
+        }
 
     </script>
   </body>

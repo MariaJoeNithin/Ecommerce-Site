@@ -203,6 +203,7 @@
               console.log(localStorage.getItem("products"))
               localStorage.setItem("products", JSON.stringify(data.products));
             }
+            remadd()
 
         } catch (error) {
           console.log(error);
@@ -243,6 +244,7 @@
 
                   <p class="d-flex buttons justify-content-center align-items-center gap-5">
                         <button id="cartBtn${product.id}" class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button> 
+                        <button id="remBtn${product.id}" class ="btn btn-danger cart my-2 d-none  " onclick='removeCart(${product.id})'>Remove</button> 
                   </p>
                 </div>
                 `;
@@ -316,8 +318,62 @@
           cartStorage.splice(findIndex, 1, productToUpdate);
           localStorage.setItem("cart", JSON.stringify(cartStorage));
         }
+
+        const addButton = document.getElementById(`cartBtn${id}`);
+        const removeButton = document.getElementById(`remBtn${id}`);
+
+        if (addButton && removeButton) {
+            addButton.classList.add("d-none");
+            removeButton.classList.remove("d-none");
+        }
+
+        cartlimit()
+
       }
-      
+
+      function removeCart(id)
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+          let updateCart = cartStorage.filter((product) => product.id !== id);
+          localStorage.setItem("cart" , JSON.stringify(updateCart));
+
+          const addButton = document.getElementById(`cartBtn${id}`);
+          const removeButton = document.getElementById(`remBtn${id}`);
+
+          if (addButton && removeButton) {
+              addButton.classList.remove("d-none");
+              removeButton.classList.add("d-none");
+          }
+
+          cartlimit()
+        }
+
+        function remadd()
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];    
+          cartStorage.forEach((item) => {
+            const addButton = document.getElementById(`cartBtn${item.id}`);
+            const removeButton = document.getElementById(`remBtn${item.id}`);
+
+            
+            console.log(item.id);
+            console.log(addButton);
+            console.log(removeButton);
+            addButton.classList.add("d-none");
+            removeButton.classList.remove("d-none");
+
+          });
+        }
+
+
+        window.onload = cartlimit()
+        function cartlimit()
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+          let cartNo=document.querySelector("#cartitem");
+          cartNo.innerHTML=cartStorage.length;
+        }
+
     </script>
   </body>
 </ht

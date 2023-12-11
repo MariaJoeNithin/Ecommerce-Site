@@ -258,19 +258,18 @@
                       <p class="productprice">Rs.${(findProduct.price)}</p>
 
                       <p id="cartnotadded" class="d-flex buttons justify-content-start align-items-center gap-5">
-                      <button class ="btn btn-success cart my-2" onclick='addToCart(${findProduct.id})'>Add To Cart</button>   
+                        <button id="cartBtn${findProduct.id}" class ="btn btn-success cart my-2" onclick='addToCart(${findProduct.id})'>Add To Cart</button> 
+                        <button id="remBtn${findProduct.id}" class ="btn btn-danger cart my-2 d-none  " onclick='removeCart(${findProduct.id})'>Remove</button> 
+                    
                     </p>
-                  <!--  <p id="cartadded" class="d-flex buttons justify-content-start align-items-center gap-2">
-                      <button class="btn btn-primary" onclick='updateCart(${findProduct.id}, 1)'>+</button>
-                      <button class="btn btn-primary" onclick='updateCart(${findProduct.id}, -1)'>-</button>
-                      <button class="btn btn-danger" onclick='removeCart(${findProduct.id})'>Remove</button>
-                    </p>  -->
                     </div>
                   </div>
                       <hr> 
                 </div>
         `;
         productContainer.innerHTML = productDiv;
+        console.log(findProduct.id)
+        remaddcrt(findProduct.id);
 
       }
 
@@ -317,9 +316,9 @@
                       <button class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button>   
                     </p>
                   <!--  <p id="cartadded" class="d-flex buttons justify-content-center align-items-center gap-2">
-                      <button class="btn btn-primary" onclick='updateCart(${product.id}, 1)'>+</button>
-                      <button class="btn btn-primary" onclick='updateCart(${product.id}, -1)'>-</button>
-                      <button class="btn btn-danger" onclick='removeCart(${product.id})'>Remove</button>
+                    <button id="cartBtn${product.id}" class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button> 
+                        <button id="remBtn${product.id}" class ="btn btn-danger cart my-2 d-none  " onclick='removeCart(${product.id})'>Remove</button> 
+                  
                     </p>  -->
                 </div>
                 `;
@@ -331,8 +330,14 @@
 
       function suggestui(arr)
       {
+        
+        let UrlId = new URLSearchParams(location.search);
+        let currentProductId = UrlId.get("id");
         const prosugg = document.querySelector("#product-suggestion");
         const proArr = arr.map((product) => {
+          if (product.id == currentProductId) {
+            return ''; // Skip this product
+        }
           return `
                 <div id="product-${product.id}" class="product_items shadow p-4 rounded">
                   <a href='./product_id.html?id=${product.id}'>
@@ -345,19 +350,18 @@
                         <img src=${product.images[1]} alt=product-${product.id} class="img-fluid" style="height:150px;width:auto"/>    
                     </p>
                     </a>
-                    <p id="cartnotadded" class="d-flex buttons justify-content-center align-items-center gap-5">
-                      <button class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button>   
-                    </p>
-                    <p id="cartadded" class="d-flex buttons justify-content-center align-items-center gap-2">
-                      <button class="btn btn-primary" onclick='updateCart(${product.id}, 1)'>+</button>
-                      <button class="btn btn-primary" onclick='updateCart(${product.id}, -1)'>-</button>
-                      <button class="btn btn-danger" onclick='removeCart(${product.id})'>Remove</button>
+                    <p id="cartadded" class="d-flex buttons justify-content-center align-items-center gap-2">      
+                      <button id="cartBtn${product.id}" class ="btn btn-success cart my-2" onclick='addToCart(${product.id})'>Add To Cart</button> 
+                        <button id="remBtn${product.id}" class ="btn btn-danger cart my-2 d-none  " onclick='removeCart(${product.id})'>Remove</button> 
+                  
                     </p>
                 </div>
                 `;
         });
         // console.log(productsArr.join(" "));
         prosugg.innerHTML =proArr.join("");
+        
+        remadd()
       }
 
       function addToCart(id) {
@@ -390,6 +394,16 @@
           cartStorage.splice(findIndex, 1, productToUpdate);
           localStorage.setItem("cart", JSON.stringify(cartStorage));
         }
+        const addButton = document.getElementById(`cartBtn${id}`);
+        const removeButton = document.getElementById(`remBtn${id}`);
+
+        if (addButton && removeButton) {
+            addButton.classList.add("d-none");
+            removeButton.classList.remove("d-none");
+        }
+        remadd()
+
+        cartlimit()
       }
 
       searchVal.addEventListener("input", (e) => {
@@ -422,6 +436,72 @@
         generateui(newArr);
       });
 
+      function removeCart(id)
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+          let updateCart = cartStorage.filter((product) => product.id !== id);
+          localStorage.setItem("cart" , JSON.stringify(updateCart));
+
+          const addButton = document.getElementById(`cartBtn${id}`);
+          const removeButton = document.getElementById(`remBtn${id}`);
+
+          if (addButton && removeButton) {
+              addButton.classList.remove("d-none");
+              removeButton.classList.add("d-none");
+          }
+
+          cartlimit()
+          window.location.reload()
+        }
+
+
+      function remadd()
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];    
+          cartStorage.forEach((item) => {
+            const addButton = document.getElementById(`cartBtn${item.id}`);
+            const removeButton = document.getElementById(`remBtn${item.id}`);
+
+            
+            console.log(item.id);
+            console.log(addButton);
+            console.log(removeButton);
+            addButton.classList.add("d-none");
+            removeButton.classList.remove("d-none");
+
+
+          });
+
+        }
+
+        function remaddcrt(currentid)
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];    
+
+          cartStorage.forEach((item) => {
+            const addButton = document.getElementById(`cartBtn${currentid}`);
+            const removeButton = document.getElementById(`remBtn${currentid}`);
+            
+            console.log(addButton);
+            console.log(removeButton);
+            if(currentid==item.id)
+          {
+            console.log(item.id);
+            addButton.classList.add("d-none");
+            removeButton.classList.remove("d-none");
+          }
+          });
+        }
+
+
+
+        window.onload = cartlimit()
+        function cartlimit()
+        {
+          let cartStorage = JSON.parse(localStorage.getItem("cart")) || [];
+          let cartNo=document.querySelector("#cartitem");
+          cartNo.innerHTML=cartStorage.length;
+        }
 
     </script>
   </body>
