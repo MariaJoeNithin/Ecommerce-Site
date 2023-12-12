@@ -254,11 +254,11 @@
         });
         // console.log(productsArr.join(" "));
         productsContainer.innerHTML = productsArr.join("");
+        
       }
 
       const searchVal = document.querySelector("#search");
       const searchBtn = document.querySelector("#search-btn");
-
 
       searchVal.addEventListener("input", (e) => {
         e.preventDefault();
@@ -272,7 +272,6 @@
         });
         // console.log(newArr);
         generateui(newArr);
-
       });
 
 
